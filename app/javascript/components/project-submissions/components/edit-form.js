@@ -3,16 +3,20 @@ import { useForm } from 'react-hook-form';
 import { func, object } from 'prop-types';
 import { yupResolver } from '@hookform/resolvers';
 
-import schema from '../schemas/project-submission-schema'
+import schema from '../schemas/project-submission-schema';
 
-const EditForm = ({ submission, onSubmit, onClose, onDelete }) => {
-  const { register, errors, handleSubmit, formState } = useForm({
+const EditForm = ({
+  submission, onSubmit, onClose, onDelete,
+}) => {
+  const {
+    register, errors, handleSubmit, formState,
+  } = useForm({
     resolver: yupResolver(schema),
     defaultValues: {
       repo_url: submission.repo_url,
       live_preview_url: submission.live_preview_url,
       is_public: submission.is_public,
-    }
+    },
   });
 
   const handleDelete = () => {
@@ -37,7 +41,7 @@ const EditForm = ({ submission, onSubmit, onClose, onDelete }) => {
         <input type="hidden" name="project_submission_id" value={submission.id} ref={register()} />
         <input type="hidden" name="lesson_id" value={submission.lesson_id} ref={register()} />
         <div className="form__section">
-          <span className="form__icon fab fa-github"></span>
+          <span className="form__icon fab fa-github" />
           <input
             autoFocus
             className="form__element form__element--with-icon"
@@ -47,11 +51,17 @@ const EditForm = ({ submission, onSubmit, onClose, onDelete }) => {
             ref={register()}
           />
         </div>
-        {errors.repo_url && <div className="form__error-message push-down"> {errors.repo_url.message}</div>}
-        { submission.lesson_has_live_preview &&
-          <Fragment>
+        {errors.repo_url && (
+        <div className="form__error-message push-down">
+          {' '}
+          {errors.repo_url.message}
+        </div>
+        )}
+        { submission.lesson_has_live_preview
+          && (
+          <>
             <div className="form__section">
-              <span className="form__icon fas fa-link"></span>
+              <span className="form__icon fas fa-link" />
               <input
                 className="form__element form__element--with-icon"
                 type="text"
@@ -60,17 +70,22 @@ const EditForm = ({ submission, onSubmit, onClose, onDelete }) => {
                 ref={register()}
               />
             </div>
-            {errors.live_preview_url && <div className="form__error-message push-down"> {errors.live_preview_url.message}</div> }
-            </Fragment>
-        }
+            {errors.live_preview_url && (
+            <div className="form__error-message push-down">
+              {' '}
+              {errors.live_preview_url.message}
+            </div>
+            ) }
+          </>
+          )}
 
         <div className="form__section form__section--center-aligned form__section--bottom">
 
           <div className="form__toggle-checkbox">
             <p className="bold">MAKE SOLUTION PUBLIC</p>
             <label className="toggle form__public-checkbox">
-              <input className="toggle__input" type="checkbox" name="is_public" ref={register()}  />
-              <div className="toggle__fill round"></div>
+              <input className="toggle__input" type="checkbox" name="is_public" ref={register()} />
+              <div className="toggle__fill round" />
             </label>
           </div>
 
@@ -91,6 +106,6 @@ EditForm.propTypes = {
   onSubmit: func.isRequired,
   onClose: func.isRequired,
   onDelete: func.isRequired,
-}
+};
 
 export default EditForm;

@@ -8,7 +8,7 @@ describe('VisibleToggle', () => {
       <VisibleToggle
         submission={{ is_public: true }}
         handleVisibleToggle={() => {}}
-      />
+      />,
     );
     expect(screen.getByLabelText('Toggle visibility')).toHaveClass('submissions__public-icon--visible');
   });
@@ -18,7 +18,7 @@ describe('VisibleToggle', () => {
       <VisibleToggle
         submission={{ is_public: false }}
         handleVisibleToggle={() => {}}
-      />
+      />,
     );
     expect(screen.getByLabelText('Toggle visibility')).not.toHaveClass('submissions__public-icon--visible');
   });
@@ -26,12 +26,12 @@ describe('VisibleToggle', () => {
   test('Toggles between public and private on click', () => {
     const submission = { is_public: true };
     const mockHandleVisibleToggle = jest.fn()
-      .mockImplementation(() => submission.is_public = !submission.is_public)
+      .mockImplementation(() => submission.is_public = !submission.is_public);
     const { rerender } = render(
       <VisibleToggle
         submission={submission}
         handleVisibleToggle={mockHandleVisibleToggle}
-      />
+      />,
     );
     const component = screen.getByLabelText('Toggle visibility');
 
@@ -42,8 +42,8 @@ describe('VisibleToggle', () => {
       <VisibleToggle
         submission={submission}
         handleVisibleToggle={mockHandleVisibleToggle}
-      />
-    )
+      />,
+    );
     expect(component).not.toHaveClass('submissions__public-icon--visible');
   });
 });

@@ -3,25 +3,32 @@ import { useForm } from 'react-hook-form';
 import { func } from 'prop-types';
 import { yupResolver } from '@hookform/resolvers';
 
-import schema from '../schemas/project-submission-schema'
+import schema from '../schemas/project-submission-schema';
 import ProjectSubmissionContext from '../ProjectSubmissionContext';
 
 const CreateForm = ({ onClose, onSubmit, userId }) => {
   const { lesson } = useContext(ProjectSubmissionContext);
-  const { register, handleSubmit, formState, errors } = useForm({
+  const {
+    register, handleSubmit, formState, errors,
+  } = useForm({
     resolver: yupResolver(schema),
     defaultValues: {
       is_public: true,
-    }
+    },
   });
 
-  if(userId === null) {
+  if (userId === null) {
     return (
       <div className="text-center">
         <h1 className="bold">Please Sign in</h1>
-        <p>Please <a href='/login'>sign in</a> to add a project submission.</p>
+        <p>
+          Please
+          <a href="/login">sign in</a>
+          {' '}
+          to add a project submission.
+        </p>
       </div>
-    )
+    );
   }
 
   if (formState.isSubmitSuccessful) {
@@ -30,7 +37,7 @@ const CreateForm = ({ onClose, onSubmit, userId }) => {
         <h1 className="accent">Thanks for Submitting Your Solution!</h1>
         <button className="button button--primary" onClick={onClose}>Close</button>
       </div>
-    )
+    );
   }
 
   return (
@@ -39,7 +46,7 @@ const CreateForm = ({ onClose, onSubmit, userId }) => {
 
       <form className="form" onSubmit={handleSubmit(onSubmit)}>
         <div className="form__section">
-          <span className="form__icon fab fa-github"></span>
+          <span className="form__icon fab fa-github" />
           <input
             autoFocus
             className="form__element form__element--with-icon"
@@ -49,12 +56,18 @@ const CreateForm = ({ onClose, onSubmit, userId }) => {
             ref={register()}
           />
         </div>
-        {errors.repo_url && <div className="form__error-message push-down"> {errors.repo_url.message}</div>}
+        {errors.repo_url && (
+        <div className="form__error-message push-down">
+          {' '}
+          {errors.repo_url.message}
+        </div>
+        )}
 
-        { lesson.has_live_preview &&
-          <Fragment>
+        { lesson.has_live_preview
+          && (
+          <>
             <div className="form__section">
-              <span className="form__icon fas fa-link"></span>
+              <span className="form__icon fas fa-link" />
               <input
                 className="form__element form__element--with-icon"
                 type="url"
@@ -63,16 +76,21 @@ const CreateForm = ({ onClose, onSubmit, userId }) => {
                 ref={register()}
               />
             </div>
-            { errors.live_preview_url && <div className="form__error-message push-down"> {errors.live_preview_url.message}</div> }
-           </Fragment>
-        }
+            { errors.live_preview_url && (
+            <div className="form__error-message push-down">
+              {' '}
+              {errors.live_preview_url.message}
+            </div>
+            ) }
+          </>
+          )}
 
         <div className="form__section form__section--center-aligned form__section--bottom">
           <div className="form__toggle-checkbox">
             <p className="bold">MAKE SOLUTION PUBLIC</p>
             <label className="toggle form__public-checkbox">
               <input className="toggle__input" type="checkbox" name="is_public" ref={register()} />
-              <div className="toggle__fill"></div>
+              <div className="toggle__fill" />
             </label>
           </div>
 

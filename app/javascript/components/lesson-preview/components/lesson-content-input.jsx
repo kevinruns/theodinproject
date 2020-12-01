@@ -1,9 +1,9 @@
 import React from 'react';
 
-const LessonContentInput = ({onChange, content}) => {
+const LessonContentInput = ({ onChange, content }) => {
   const handleOnChange = (event) => {
-    onChange(event.target.value)
-  }
+    onChange(event.target.value);
+  };
 
   return (
     <textarea
@@ -11,11 +11,8 @@ const LessonContentInput = ({onChange, content}) => {
       placeholder="Lesson content..."
       onChange={handleOnChange}
       value={content}
-    >
-
-    </textarea>
-  )
-
+    />
+  );
 };
 
 export default LessonContentInput;

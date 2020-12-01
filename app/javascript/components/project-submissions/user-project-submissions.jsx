@@ -1,7 +1,7 @@
 import React from 'react';
 import { number, array } from 'prop-types';
 import UserProjectSubmissionsContainer from './containers/user-project-submissions-container';
-import ProjectSubmissionContext from "./ProjectSubmissionContext";
+import ProjectSubmissionContext from './ProjectSubmissionContext';
 
 const UserProjectSubmissions = ({ submissions, userId }) => (
   <ProjectSubmissionContext.Provider value={{ userId }}>

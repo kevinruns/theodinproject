@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
+import {
+  Tab, Tabs, TabList, TabPanel,
+} from 'react-tabs';
 import Prism from 'prismjs';
 
 import LessonContentInput from './lesson-content-input';
@@ -9,7 +11,7 @@ import axios from '../../../src/js/axiosWithCsrf';
 import 'react-tabs/style/react-tabs.css';
 
 const LessonPreview = () => {
-  const [content, setContent] = useState('')
+  const [content, setContent] = useState('');
   const [convertedContent, setConvertedContent] = useState('');
 
   const fetchLessonPreview = async () => {
@@ -18,11 +20,11 @@ const LessonPreview = () => {
     if (response.status === 200) {
       setConvertedContent(response.data.content);
     }
-  }
+  };
 
   useEffect(() => {
     Prism.highlightAll();
-  },[convertedContent]);
+  }, [convertedContent]);
 
   return (
     <Tabs>
@@ -31,13 +33,13 @@ const LessonPreview = () => {
         <Tab onClick={fetchLessonPreview}>Preview</Tab>
       </TabList>
 
-    <TabPanel>
-      <LessonContentInput onChange={setContent} content={content}/>
-    </TabPanel>
-    <TabPanel>
-      <LessonContentPreview content={convertedContent} />
-    </TabPanel>
-  </Tabs>
+      <TabPanel>
+        <LessonContentInput onChange={setContent} content={content} />
+      </TabPanel>
+      <TabPanel>
+        <LessonContentPreview content={convertedContent} />
+      </TabPanel>
+    </Tabs>
   );
 };
 

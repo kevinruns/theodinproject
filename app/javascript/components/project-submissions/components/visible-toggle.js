@@ -13,8 +13,9 @@ const VisibleToggle = ({ submission, handleVisibleToggle }) => {
     <a
       onClick={() => handleVisibleToggle(updateObj)}
       className={`submissions__public-icon submissions__public-icon${submission.is_public ? '--visible hint--top' : ' hint--top'}`}
-      aria-label='Toggle visibility'>
-      <i className="fas fa-eye"></i>
+      aria-label="Toggle visibility"
+    >
+      <i className="fas fa-eye" />
     </a>
   );
 };
@@ -22,6 +23,6 @@ const VisibleToggle = ({ submission, handleVisibleToggle }) => {
 VisibleToggle.propTypes = {
   submission: object.isRequired,
   handleVisibleToggle: func,
-}
+};
 
 export default VisibleToggle;

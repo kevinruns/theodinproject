@@ -1,4 +1,6 @@
-import React, { useState, useMemo, useContext, forwardRef } from 'react';
+import React, {
+  useState, useMemo, useContext, forwardRef,
+} from 'react';
 import { object, func, bool } from 'prop-types';
 
 import Modal from './modal';
@@ -8,15 +10,16 @@ import SubmissionTitle from './submission-title';
 import Like from './like';
 import VisibleToggle from './visible-toggle';
 
-const noop = () => { }
+const noop = () => { };
 
-const Submission = forwardRef(({ submission, handleUpdate, onFlag, handleDelete, isDashboardView, handleLikeToggle }, ref) => {
+const Submission = forwardRef(({
+  submission, handleUpdate, onFlag, handleDelete, isDashboardView, handleLikeToggle,
+}, ref) => {
   const { userId } = useContext(ProjectSubmissionContext);
   const [showEditModal, setShowEditModal] = useState(false);
-  const isCurrentUsersSubmission = useMemo(() =>
-    userId === submission.user_id, [userId, submission.user_id]);
+  const isCurrentUsersSubmission = useMemo(() => userId === submission.user_id, [userId, submission.user_id]);
 
-  const toggleShowEditModal = () => setShowEditModal(prevShowEditModal => !prevShowEditModal);
+  const toggleShowEditModal = () => setShowEditModal((prevShowEditModal) => !prevShowEditModal);
   const livePreview = submission.live_preview_url.length > 0;
 
   return (
@@ -38,17 +41,16 @@ const Submission = forwardRef(({ submission, handleUpdate, onFlag, handleDelete,
           </button>
         )}
         <a href={submission.repo_url} target="_blank" className="submissions__button">View Code</a>
-        {livePreview &&
-          <a href={submission.live_preview_url} target="_blank" className="submissions__button">Live Preview</a>
-        }
+        {livePreview
+          && <a href={submission.live_preview_url} target="_blank" className="submissions__button">Live Preview</a>}
 
         {isCurrentUsersSubmission
           ? <VisibleToggle submission={submission} handleVisibleToggle={handleUpdate} />
-          :
-          <a className='submissions__flag hint--top' aria-label='Report submission' onClick={(event) => { event.preventDefault(); onFlag(submission) }}>
-            <i className='fas fa-flag'></i>
-          </a>
-        }
+          : (
+            <a className="submissions__flag hint--top" aria-label="Report submission" onClick={(event) => { event.preventDefault(); onFlag(submission); }}>
+              <i className="fas fa-flag" />
+            </a>
+          )}
       </div>
 
       <Modal show={showEditModal} handleClose={toggleShowEditModal}>
@@ -66,7 +68,7 @@ const Submission = forwardRef(({ submission, handleUpdate, onFlag, handleDelete,
 Submission.defaultProps = {
   onFlag: noop,
   isDashboardView: false,
-}
+};
 
 Submission.propTypes = {
   submission: object.isRequired,

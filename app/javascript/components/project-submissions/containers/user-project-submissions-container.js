@@ -7,7 +7,9 @@ const ProjectSubmissions = (props) => {
   const [submissions, setSubmissions] = useState(props.submissions);
 
   const handleUpdate = async (data) => {
-    const { repo_url, live_preview_url, is_public, project_submission_id, lesson_id } = data;
+    const {
+      repo_url, live_preview_url, is_public, project_submission_id, lesson_id,
+    } = data;
 
     event.preventDefault();
 
@@ -18,20 +20,18 @@ const ProjectSubmissions = (props) => {
           repo_url,
           live_preview_url,
           is_public,
-          lesson_id: lesson_id,
-        }
-      }
+          lesson_id,
+        },
+      },
     );
     if (response.status === 200) {
       const updatedSubmission = response.data;
 
-      setSubmissions(prevSubmissions => {
-        return prevSubmissions.map(previousSubmission => {
-          if (previousSubmission.id === updatedSubmission.id) return updatedSubmission;          
+      setSubmissions((prevSubmissions) => prevSubmissions.map((previousSubmission) => {
+        if (previousSubmission.id === updatedSubmission.id) return updatedSubmission;
 
-          return previousSubmission;
-        });
-      });
+        return previousSubmission;
+      }));
     }
   };
 
@@ -40,9 +40,7 @@ const ProjectSubmissions = (props) => {
 
     const response = await axios.delete(`/project_submissions/${id}`, {});
     if (response.status === 200) {
-      setSubmissions(prevSubmissions =>
-        prevSubmissions.filter((submission) => submission.id !== id)
-      );
+      setSubmissions((prevSubmissions) => prevSubmissions.filter((submission) => submission.id !== id));
     }
   };
 
@@ -51,25 +49,24 @@ const ProjectSubmissions = (props) => {
       `/project_submissions/${submission.id}/likes`,
       {
         submission_id: submission.id,
-        is_liked_by_current_user: submission.is_liked_by_current_user
-      }
+        is_liked_by_current_user: submission.is_liked_by_current_user,
+      },
     );
 
     if (response.status === 200) {
       const updatedSubmission = response.data;
 
-      setSubmissions(prevSubmissions => {
+      setSubmissions((prevSubmissions) => {
         const newSubmissions = prevSubmissions.map((submission) => {
           if (updatedSubmission.id === submission.id) {
             return updatedSubmission;
           }
 
           return submission;
-        })
+        });
 
         return newSubmissions;
       });
-
     }
   };
 
@@ -83,7 +80,7 @@ const ProjectSubmissions = (props) => {
         isDashboardView
       />
     </div>
-  )
-}
+  );
+};
 
 export default ProjectSubmissions;
