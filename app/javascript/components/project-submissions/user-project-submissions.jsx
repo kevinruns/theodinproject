@@ -1,5 +1,5 @@
 import React from 'react';
-import { number, array } from 'prop-types';
+import PropTypes from 'prop-types';
 import UserProjectSubmissionsContainer from './containers/user-project-submissions-container';
 import ProjectSubmissionContext from './ProjectSubmissionContext';
 
@@ -10,8 +10,8 @@ const UserProjectSubmissions = ({ submissions, userId }) => (
 );
 
 UserProjectSubmissions.propTypes = {
-  userId: number,
-  submissions: array.isRequired,
+  userId: PropTypes.number.isRequired,
+  submissions: PropTypes.arrayOf(PropTypes.object).isRequired,
 };
 
 export default UserProjectSubmissions;

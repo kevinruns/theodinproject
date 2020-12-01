@@ -1,18 +1,24 @@
+/* eslint camelcase: ["error", {ignoreDestructuring: true, properties: "never"}] */
 import React, { useState, useContext } from 'react';
+import PropTypes from 'prop-types';
 
-import {
-  SubmissionsList, Modal, CreateForm, FlagForm,
-} from '../components';
 import axios from '../../../src/js/axiosWithCsrf';
 import ProjectSubmissionContext from '../ProjectSubmissionContext';
+import {
+  SubmissionsList,
+  Modal,
+  CreateForm,
+  FlagForm,
+} from '../components';
 
-const ProjectSubmissions = (props) => {
+const ProjectSubmissions = ({ submissions, userSubmission }) => {
   const { userId, lesson, course } = useContext(ProjectSubmissionContext);
+
   const [showCreateModal, setShowCreateModal] = useState(false);
   const [showFlagModal, setShowFlagModal] = useState(false);
-  const [submissions, setSubmissions] = useState(props.submissions);
+  const [projectSubmissions, setProjectSubmissions] = useState(submissions);
   const [flaggedSubmission, setFlaggedSubmission] = useState({});
-  const [userSubmission, setUserSubmission] = useState(props.userSubmission);
+  const [userProjectSubmission, setUserProjectSubmission] = useState(userSubmission);
 
   const toggleShowFlagModal = () => setShowFlagModal((prevShowFlagModal) => !prevShowFlagModal);
 
@@ -22,8 +28,6 @@ const ProjectSubmissions = (props) => {
 
   const handleCreate = async (data) => {
     const { repo_url, live_preview_url, is_public } = data;
-
-    event.preventDefault();
 
     const response = await axios.post(
       '/project_submissions',
@@ -37,19 +41,15 @@ const ProjectSubmissions = (props) => {
       },
     );
     if (response.status === 200) {
-      setUserSubmission((prevSubmission) => response.data);
+      setUserProjectSubmission(() => response.data);
     }
   };
 
   const handleUpdate = async (data) => {
-    const {
-      repo_url, live_preview_url, is_public, project_submission_id,
-    } = data;
-
-    event.preventDefault();
+    const { repo_url, live_preview_url, is_public } = data;
 
     const response = await axios.put(
-      `/project_submissions/${project_submission_id}`,
+      `/project_submissions/${data.project_submission_id}`,
       {
         project_submission: {
           repo_url,
@@ -60,24 +60,22 @@ const ProjectSubmissions = (props) => {
       },
     );
     if (response.status === 200) {
-      setUserSubmission((prevSubmission) => response.data);
+      setUserProjectSubmission(() => response.data);
     }
   };
 
   const handleDelete = async (id) => {
-    event.preventDefault();
-
     const response = await axios.delete(`/project_submissions/${id}`, {});
     if (response.status === 200) {
-      setUserSubmission((prevSubmissions) => null);
+      setUserProjectSubmission(() => null);
     }
   };
 
   const handleFlag = async (data) => {
-    const { project_submission_id, reason } = data;
+    const { reason } = data;
 
     const response = await axios.post(
-      `/project_submissions/${project_submission_id}/flags`,
+      `/project_submissions/${data.project_submission_id}/flags`,
       { reason },
     );
     if (response.status === 200) {
@@ -98,15 +96,15 @@ const ProjectSubmissions = (props) => {
       const updatedSubmission = response.data;
 
       if (isUserSubmission) {
-        setUserSubmission((prevSubmission) => updatedSubmission);
+        setUserProjectSubmission(() => updatedSubmission);
       } else {
-        setSubmissions((prevSubmissions) => {
-          const newSubmissions = prevSubmissions.map((submission) => {
-            if (updatedSubmission.id === submission.id) {
+        setProjectSubmissions((prevSubmissions) => {
+          const newSubmissions = prevSubmissions.map((prevSubmission) => {
+            if (updatedSubmission.id === prevSubmission.id) {
               return updatedSubmission;
             }
 
-            return submission;
+            return prevSubmission;
           });
 
           return newSubmissions;
@@ -150,7 +148,7 @@ const ProjectSubmissions = (props) => {
 
         <div>
           {showAddSubmissionButton() && (
-            <button className="submissions__add button button--primary" onClick={toggleShowCreateModal}>
+            <button type="button" className="submissions__add button button--primary" onClick={toggleShowCreateModal}>
               Add Solution
             </button>
           )}
@@ -162,8 +160,8 @@ const ProjectSubmissions = (props) => {
         .
       </p>
       <SubmissionsList
-        submissions={submissions}
-        userSubmission={userSubmission}
+        submissions={projectSubmissions}
+        userSubmission={userProjectSubmission}
         handleUpdate={handleUpdate}
         onFlag={(submission) => { setFlaggedSubmission(submission); toggleShowFlagModal(); }}
         handleDelete={handleDelete}
@@ -171,6 +169,15 @@ const ProjectSubmissions = (props) => {
       />
     </div>
   );
+};
+
+ProjectSubmissions.defaultProps = {
+  userSubmission: {},
+};
+
+ProjectSubmissions.propTypes = {
+  submissions: PropTypes.array.isRequired,
+  userSubmission: PropTypes.object,
 };
 
 export default ProjectSubmissions;

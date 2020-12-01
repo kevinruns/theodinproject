@@ -1,5 +1,5 @@
 import React from 'react';
-import { object, func } from 'prop-types';
+import PropTypes from 'prop-types';
 
 const VisibleToggle = ({ submission, handleVisibleToggle }) => {
   const updateObj = {
@@ -21,8 +21,8 @@ const VisibleToggle = ({ submission, handleVisibleToggle }) => {
 };
 
 VisibleToggle.propTypes = {
-  submission: object.isRequired,
-  handleVisibleToggle: func,
+  submission: PropTypes.object.isRequired,
+  handleVisibleToggle: PropTypes.func.isRequired,
 };
 
 export default VisibleToggle;
