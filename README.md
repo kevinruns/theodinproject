@@ -47,5 +47,8 @@ To find out more about how you can contribute, please read our [contributing gui
 * [Andy Duss](https://github.com/mindovermiles262)
 * [Ada Chiu](https://github.com/adachiu)
 
+## Minor Contributor
+* [Kevin Lenehan]
+
 ---
 Created by [Erik Trautman](http://www.github.com/eriktrautman)
